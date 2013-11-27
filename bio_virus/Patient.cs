@@ -8,7 +8,7 @@ namespace bio_virus
 {
     public class SimplePatient
     {
-        List<SimpleVirus> viruses;
+        public List<SimpleVirus> viruses;
         int maxpop;
         public int getpop()
         {
@@ -16,12 +16,17 @@ namespace bio_virus
         }
         public void update()
         {
-            List<SimpleVirus> removelist = new List<SimpleVirus>();
-            foreach (SimpleVirus sv in viruses)
+            for (int i = 0; i < getpop() - 1; i++)
             {
-                if (sv.clear())
-                    removelist.Add(sv);
+                if (viruses[i].clear())
+                    viruses.Remove(viruses[i]);
+                if (i > getpop())
+                    break;
+                try { viruses.Add(viruses[i].reproduce(.5f)); }
+                catch (NoChildException) { }
+
             }
+            Program.numviruses.Add(viruses.Count());
         }
         public SimplePatient(List<SimpleVirus> Viruses, int MaxPopulation)
         {
