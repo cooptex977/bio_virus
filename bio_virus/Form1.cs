@@ -15,41 +15,63 @@ namespace bio_virus
         public Form1()
         {
             InitializeComponent();
-            this.ClientSize = new System.Drawing.Size(640, 600);
-        }
-        private void VirusSim_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Program.problem_2();
-            chart1.Palette = ChartColorPalette.SeaGreen;
-            chart1.Size = new System.Drawing.Size(640, 480);
-            chart1.Location = new System.Drawing.Point(10, 10);
-            chart1.ChartAreas.Add("draw");
-            chart1.ChartAreas["draw"].AxisX.Minimum = 1;
-            chart1.ChartAreas["draw"].AxisX.Maximum = 10;
-            chart1.ChartAreas["draw"].AxisX.Interval = 1;
-            chart1.ChartAreas["draw"].AxisX.MajorGrid.LineColor = Color.White;
-            chart1.ChartAreas["draw"].AxisY.Minimum = 0;
-            chart1.ChartAreas["draw"].AxisY.Maximum = 1000;
-            chart1.ChartAreas["draw"].AxisY.Interval = 100;
-            chart1.ChartAreas["draw"].AxisY.MajorGrid.LineColor = Color.White;
-            // Set title.
-            chart1.Titles.Add("Virus Simulation");
-            // Add series.
-            chart1.Series.Add("Virus Growth");
-            chart1.Series["Virus Growth"].ChartType = SeriesChartType.Line;
-            // Add point.
-            chart1.Series["Virus Growth"].Color = Color.LightGreen;
-            chart1.Series["Virus Growth"].BorderWidth = 3;
-            foreach (int i in Program.numviruses)
+            if (check())
             {
-                chart1.Series["Virus Growth"].Points.Add(i);
+                foreach (var series in chart1.Series)
+                {
+                    series.Points.Clear();
+                }
+                Program.numviruses.Clear();
+                Program.viruses.Clear();
+                Program.problem_4();
+                int final = Program.numviruses[Program.numviruses.Count - 1];
+                chart1.Series["Virus Growth"].ChartType = SeriesChartType.Line;
+                chart1.ChartAreas["draw"].AxisX.Minimum = 0;
+                chart1.ChartAreas["draw"].AxisX.Maximum = Program.timeBefore + Program.timeAfter;
+                chart1.ChartAreas["draw"].AxisX.Interval = (Program.timeBefore + Program.timeAfter) / 10;
+                chart1.ChartAreas["draw"].AxisX.MajorGrid.LineColor = Color.White;
+                chart1.ChartAreas["draw"].AxisY.Minimum = 0;
+                chart1.ChartAreas["draw"].AxisY.Maximum = 450;
+                chart1.ChartAreas["draw"].AxisY.Interval = 50;
+                chart1.ChartAreas["draw"].AxisY.MajorGrid.LineColor = Color.White;
+                foreach (int i in Program.numviruses)
+                {
+                    chart1.Series[0].Points.Add(i);
+                    chart1.Update();
+                }
+                Controls.Add(this.chart1);
+                label1.Text = "Final virus count: " + final.ToString();
             }
-            Controls.Add(this.chart1); 
-
+            else
+                MessageBox.Show("Invalid Input", "Error");
+        }
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            try { Program.timeBefore = Int32.Parse(textBox2.Text); }
+            catch { MessageBox.Show("Invalid Input", "Error"); }
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try { Program.timeAfter = Int32.Parse(textBox1.Text); }
+            catch { MessageBox.Show("Invalid Input", "Error"); }
+        }
+        private bool check()
+        {
+            if (!String.IsNullOrEmpty(textBox1.Text) && !String.IsNullOrEmpty(textBox2.Text))
+            {
+                try 
+                {
+                    Program.timeBefore = Int32.Parse(textBox2.Text); 
+                    Program.timeAfter = Int32.Parse(textBox1.Text); 
+                    return true; 
+                }
+                catch { return false; }
+            }
+            else
+                return false;
         }
     }
 }

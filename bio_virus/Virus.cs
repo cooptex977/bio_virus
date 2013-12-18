@@ -58,12 +58,20 @@ namespace bio_virus
             if (randomf >= maxBirthProb * (1 - density))
             {
                 randomf = (float)Program.rand.NextDouble();
+                Dictionary<string, bool> addremove = new Dictionary<string, bool>();
                 foreach (KeyValuePair<string, bool> keyvals in resistances)
                 {
                     if (randomf >= 1 - mutProb)
                     {
-                        resistances[keyvals.Key] = false;
-                        resistances[Program.RandomKey<string, bool>(resistances).ToString()] = true;
+                        addremove[Program.RandomKey<string, bool>(resistances).ToString()] = true;
+                    }
+                }
+                foreach (KeyValuePair<string, bool> kv in addremove)
+                {
+                    try { resistances.Add(kv.Key, kv.Value); }
+                    catch(Exception)
+                    {
+                        resistances[kv.Key] = kv.Value;
                     }
                 }
                 return new ResistantVirus(maxBirthProb, clearProb, resistances, mutProb);

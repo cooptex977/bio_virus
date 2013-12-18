@@ -12,9 +12,11 @@ namespace bio_virus
         /// The main entry point for the application.
         /// </summary>
         public static Random rand = new Random();
-        public static List<SimpleVirus> viruses = new List<SimpleVirus>();
+        public static int timeBefore, timeAfter;
+        public static List<ResistantVirus> viruses = new List<ResistantVirus>();
         public static List<int> numviruses = new List<int>();
-        public static SimplePatient patient = new SimplePatient(viruses, 1000);
+        public static Dictionary<string, bool> resist = new Dictionary<string, bool>();
+        public static Patient patient;
         [STAThread]
         static void Main()
         {
@@ -22,17 +24,21 @@ namespace bio_virus
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
         }
-        public static void problem_2()
+        public static void problem_4()
         {
+            if (!resist.ContainsKey("guttagonol"))
+                resist.Add("guttagonol", false);
+            if (!resist.ContainsKey("grimpex"))
+                resist.Add("grimpex", false);
             for (int i = 0; i < 100; i++)
-            {
-                viruses.Add(new SimpleVirus(0.6f, 0.5f));
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                patient.update();
-                viruses = patient.viruses;
-            }
+                viruses.Add(new ResistantVirus(.1f, .05f, resist, .005f));
+            patient = new Patient(viruses, 1000, resist);
+            for (int i = 0; i < timeBefore; i++)
+                numviruses.Add(patient.update());
+            patient.addperscription("guttagonol");
+            patient = new Patient(viruses, 1000, resist);
+            for (int i = 0; i <= timeAfter; i++)
+                numviruses.Add(patient.update());
         }
         public static IEnumerable<TKey> RandomKey<TKey, TValue>(IDictionary<TKey, TValue> dict)
         {
