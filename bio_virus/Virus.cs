@@ -42,10 +42,8 @@ namespace bio_virus
         {
             if (!resistances.ContainsKey(drug))
                 return false;
-            if (resistances[drug])
-                return true;
             else
-                return false;
+                return true;
         }
         public ResistantVirus reproduce(float density, List<string> activeDrugs)
         { 
@@ -63,7 +61,8 @@ namespace bio_virus
                 {
                     if (randomf >= 1 - mutProb)
                     {
-                        addremove[Program.RandomKey<string, bool>(resistances).ToString()] = true;
+                        try { addremove[activeDrugs[Program.rand.Next(0, activeDrugs.Count)]] = true; }
+                        catch(ArgumentOutOfRangeException) { }
                     }
                 }
                 foreach (KeyValuePair<string, bool> kv in addremove)
@@ -83,7 +82,7 @@ namespace bio_virus
         {
             maxBirthProb = birthprob;
             clearProb = clearprob;
-            resistances = resist;
+            resistances = resist.Keys.ToList().ToDictionary(t => t, t => false);
             mutProb = mutationProb;
         }
     }
