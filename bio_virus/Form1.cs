@@ -48,16 +48,6 @@ namespace bio_virus
             else
                 MessageBox.Show("Invalid Input", "Error");
         }
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            try { Program.timeBefore = Int32.Parse(textBox2.Text); }
-            catch { MessageBox.Show("Invalid Input", "Error"); }
-        }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            try { Program.timeAfter = Int32.Parse(textBox1.Text); }
-            catch { MessageBox.Show("Invalid Input", "Error"); }
-        }
         private bool check()
         {
             if (!String.IsNullOrEmpty(textBox1.Text) && !String.IsNullOrEmpty(textBox2.Text))

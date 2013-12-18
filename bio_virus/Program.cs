@@ -40,15 +40,5 @@ namespace bio_virus
             for (int i = 0; i <= timeAfter; i++)
                 numviruses.Add(patient.update());
         }
-        public static IEnumerable<TKey> RandomKey<TKey, TValue>(IDictionary<TKey, TValue> dict)
-        {
-            Random rand = new Random();
-            List<TKey> keys = Enumerable.ToList(dict.Keys);
-            int size = dict.Count;
-            while (true)
-            {
-                yield return keys[rand.Next(size)];
-            }
-        }
     }
 }
