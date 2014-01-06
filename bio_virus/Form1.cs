@@ -26,12 +26,12 @@ namespace bio_virus
                 }
                 Program.numviruses.Clear();
                 Program.viruses.Clear();
-                Program.problem_4();
+                Program.problem_6();
                 int final = Program.numviruses[Program.numviruses.Count - 1];
                 chart1.Series["Virus Growth"].ChartType = SeriesChartType.Line;
                 chart1.ChartAreas["draw"].AxisX.Minimum = 0;
-                chart1.ChartAreas["draw"].AxisX.Maximum = Program.timeBefore + Program.timeAfter;
-                chart1.ChartAreas["draw"].AxisX.Interval = (Program.timeBefore + Program.timeAfter) / 10;
+                chart1.ChartAreas["draw"].AxisX.Maximum = 150 + Program.timeAfter;
+                chart1.ChartAreas["draw"].AxisX.Interval = (150 + Program.timeAfter) / 10;
                 chart1.ChartAreas["draw"].AxisX.MajorGrid.LineColor = Color.White;
                 chart1.ChartAreas["draw"].AxisY.Minimum = 0;
                 chart1.ChartAreas["draw"].AxisY.Maximum = 450;
@@ -50,12 +50,12 @@ namespace bio_virus
         }
         private bool check()
         {
-            if (!String.IsNullOrEmpty(textBox1.Text) && !String.IsNullOrEmpty(textBox2.Text))
+            if (!String.IsNullOrEmpty(textBox1.Text) /* && !String.IsNullOrEmpty(textBox2.Text)*/)
             {
                 try 
                 {
-                    Program.timeBefore = Int32.Parse(textBox2.Text); 
-                    Program.timeAfter = Int32.Parse(textBox1.Text); 
+                    /*Program.timeAfter = Int32.Parse(textBox2.Text); */ 
+                    Program.timeAfter = Int32.Parse(textBox1.Text);
                     return true; 
                 }
                 catch { return false; }
