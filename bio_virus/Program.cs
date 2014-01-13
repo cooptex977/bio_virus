@@ -17,6 +17,7 @@ namespace bio_virus
         public static List<int> numviruses = new List<int>();
         public static Dictionary<string, bool> resist = new Dictionary<string, bool>();
         public static Patient patient;
+        public static string results;
         [STAThread]
         static void Main()
         {
